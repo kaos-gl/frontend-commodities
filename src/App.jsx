@@ -28,11 +28,20 @@ function App() {
     setStatusMsg('')
     setResultado(null)
     
-    const puertos = { '25': 8025, '50': 8050, '100': 8100 }
-    const url = `http://localhost:${puertos[dataset]}/predict`
+    // Aquí defines a dónde va cada modelo
+    let url = '';
+    if (dataset === '100') {
+      // Este ya está en la nube para el cliente
+      url = 'https://api-oro-100.onrender.com/predict';
+    } else if (dataset === '50') {
+      url = 'http://localhost:8050/predict';
+    } else if (dataset === '25') {
+      url = 'http://localhost:8025/predict';
+    }
 
     try {
       const response = await fetch(url, {
+//... el resto del código se queda igual
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputs)
